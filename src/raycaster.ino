@@ -1,6 +1,6 @@
 #include "raycaster.h"
 
-void renderWolfenstein() {
+void runWolfenstein() {
     int xValue = analogRead(joystickXPin);
     int yValue = analogRead(joystickYPin);
     float moveStep = 0.16;
@@ -66,4 +66,5 @@ void renderWolfenstein() {
   }
  
   updateLCD();
+  delay(20);
 }

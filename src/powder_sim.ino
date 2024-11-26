@@ -47,3 +47,8 @@ void updatePowder() {
   prevCursorX = cursorX;
   prevCursorY = cursorY;
 }
+
+void runPowder() {
+  updatePowder();
+  updateLCD();
+}

@@ -12,5 +12,6 @@ int highScoreFlappyBird = 0;
 // FLAPPY BIRD FUNCTIONS
 void initializeFlappyBird();
 void updateFlappyBird();
+void runFlappyBird();
 
 #endif

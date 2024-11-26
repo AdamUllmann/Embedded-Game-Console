@@ -29,3 +29,12 @@ void updateDisplay() {
     printText("Wireframe", 1);
   }
 }
+
+void runGame(DisplayMode displayMode) {
+  if (displayMode == GAME_OF_LIFE) runGameOfLife();
+  else if (displayMode == FLAPPY_BIRD) runFlappyBird();
+  else if (displayMode == WOLFENSTEIN) runWolfenstein();
+  else if (displayMode == RAIN) runRain();
+  else if (displayMode == POWDER) runPowder();
+  else runWireframe();
+}

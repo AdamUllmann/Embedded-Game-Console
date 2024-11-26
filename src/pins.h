@@ -1,5 +1,5 @@
-#ifndef CONTROLS_H
-#define CONTROLS_H
+#ifndef PINS_H
+#define PINS_H
 
 const int joystickYPin = A4;
 const int joystickXPin = A5;

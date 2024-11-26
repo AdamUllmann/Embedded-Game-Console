@@ -6,5 +6,6 @@ extern byte nextGrid[WIDTH][HEIGHT];
 void initializeGrid();
 int countAliveNeighbors(int x, int y);
 void updateGrid();
+void runGameOfLife();
 
 #endif

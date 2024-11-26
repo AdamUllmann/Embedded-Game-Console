@@ -1,7 +1,7 @@
 #ifndef RAYCASTER_H
 #define RAYCASTER_H
 
-// Wolfenstein Minigame Variables
+// Wolfenstein map variables
 const int mapWidth = 8;
 const int mapHeight = 15;
 const char map1[mapWidth * mapHeight] = {
@@ -26,6 +26,6 @@ float playerX = 2;
 float playerY = 2;
 float playerAngle = 0.0;
 
-void renderWolfenstein();
+void runWolfenstein();
 
 #endif

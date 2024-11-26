@@ -14,7 +14,7 @@ const int highScoreAddressRain = 4; // EEPROM address to store the high score
 int highScoreRain = 0;
 
 void initializeRain();
- 
 void updateRain();
+void runRain();
 
 #endif

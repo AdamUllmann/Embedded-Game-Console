@@ -10,5 +10,6 @@ const int blinkInterval = 100;
 bool dropping = 0;
 
 void updatePowder();
+void runPowder();
 
 #endif

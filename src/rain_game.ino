@@ -74,3 +74,47 @@ void updateRain() {
     }
   }
 }
+
+void runRain() {
+  if (gameOver == 0) {
+    updateRain();
+    updateLCD();
+    delay(20);
+    lcd.setCursor(9, 0);
+    lcd.print("Hi:");
+    lcd.print(highScoreRain);
+    lcd.setCursor(6, 1);
+    lcd.print("Score:");
+    lcd.print(score);
+    if (cleared != 0) {
+      cleared = 0;
+    }
+  }
+  else {
+    if (cleared != 1) {
+      lcd.clear();
+      cleared = 1;
+    }
+    lcd.setCursor(0, 0);
+    lcd.print("Game Over");
+    lcd.setCursor(0, 1);
+    lcd.print("Score");
+    lcd.print(score);
+    if (score > highScoreRain) {
+      highScoreRain = score;
+      EEPROM.update(highScoreAddressRain, highScoreRain);
+    }
+  
+    lcd.setCursor(9, 1);
+    lcd.print("Hi");
+    lcd.print(highScoreRain);
+    if (!analogRead(joystickSWPin) > 0) {
+      gameOver = 0;
+      lcd.clear();
+      cleared = 1;
+      updateDisplay();
+      score = 0;
+    }
+    delay(50);
+  }
+}

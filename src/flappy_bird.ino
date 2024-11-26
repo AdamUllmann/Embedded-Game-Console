@@ -56,3 +56,45 @@ void updateFlappyBird() {
     pipeX = WIDTH - 1;
   }
 }
+
+void runFlappyBird() {
+  if (gameOver == 0) {
+      updateFlappyBird();
+      delay(100);
+      updateLCD();
+      lcd.setCursor(11, 0);
+      lcd.print("Score");
+      lcd.setCursor(11, 1);
+      lcd.print(score);
+      if (cleared != 0) {
+        cleared = 0;
+      }
+  }
+  else {
+    if (cleared != 1) {
+      lcd.clear();
+      cleared = 1;
+    }
+    lcd.setCursor(0, 0);
+    lcd.print("Game Over");
+    lcd.setCursor(0, 1);
+    lcd.print("Score:");
+    lcd.print(score);
+    if (score > highScoreFlappyBird) {
+      highScoreFlappyBird = score;
+      EEPROM.update(highScoreAddressFlappyBird, highScoreFlappyBird);
+    }
+  
+    lcd.setCursor(8, 1);
+    lcd.print("High:");
+    lcd.print(highScoreFlappyBird);
+    if (!analogRead(joystickSWPin) > 0) {
+      gameOver = 0;
+      lcd.clear();
+      cleared = 1;
+      updateDisplay();
+      score = 0;
+    }
+    delay(50);
+  }
+}

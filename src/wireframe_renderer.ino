@@ -1,13 +1,20 @@
 #include "wireframe_renderer.h"
 
-void rotateCube() {
+void initializeWireframe() {
+  vertices = cubeVertices;
+  numVertices = numCubeVertices;
+  edges = cubeEdges;
+  numEdges = numCubeEdges;
+}
+
+void rotateWireframe() {
   int xValue = analogRead(joystickXPin);
   int yValue = analogRead(joystickYPin);
  
-  int xMapped = map(xValue, 0, 1023, -512, 512);  // remap joystick values from 0-1023 to -512 to 512
-  int yMapped = map(yValue, 0, 1023, -512, 512);  // this is so that our resting position is 0.
+  int xMapped = map(xValue, 0, 1023, -512, 512);
+  int yMapped = map(yValue, 0, 1023, -512, 512);
  
-  angleY = (xMapped) * maxRotationSpeed;    // rotation
+  angleY = (xMapped) * maxRotationSpeed;
   angleX = (yMapped) * maxRotationSpeed;
  
   float cosX = cos(angleX);
@@ -17,7 +24,7 @@ void rotateCube() {
   float cosZ = cos(angleZ);
   float sinZ = sin(angleZ);
  
-  for (int i = 0; i < numVertices; i++) {   // transform the vertices
+  for (int i = 0; i < numVertices; i++) {
     float x = vertices[i][0];
     float y = vertices[i][1];
     float z = vertices[i][2];
@@ -42,10 +49,9 @@ void rotateCube() {
   }
 }
  
-void renderCube() {
+void renderWireframe() {
   memset(gameGrid, 0, sizeof(gameGrid));
  
-  // Project vertices
   int projectedVertices[numVertices][2];
   for (int i = 0; i < numVertices; i++) {
     float x = vertices[i][0];
@@ -59,7 +65,6 @@ void renderCube() {
     projectedVertices[i][1] = py;
   }
  
-  // Draw edges
   for (int i = 0; i < numEdges; i++) {
     int x0 = projectedVertices[edges[i][0]][0];
     int y0 = projectedVertices[edges[i][0]][1];
@@ -72,8 +77,7 @@ void renderCube() {
   updateLCD();
 }
  
-void drawLine(int x0, int y0, int x1, int y1) {   // Bresenham's Line Algorithm
-                                                  // modified from https://gist.github.com/bert/1085538
+void drawLine(int x0, int y0, int x1, int y1) {
   int dx = abs(x1 - x0);
   int dy = abs(y1 - y0);
   int sx = x0 < x1 ? 1 : -1;
@@ -95,4 +99,30 @@ void drawLine(int x0, int y0, int x1, int y1) {   // Bresenham's Line Algorithm
       y0 += sy;
     }
   }
+}
+
+void runWireframe() {
+  if (!analogRead(joystickSWPin) > 0) {
+    switchShape();
+    delay(200); // debounce
+  }
+  rotateWireframe();
+  renderWireframe();
+  delay(16);
+}
+
+void switchShape() {
+  static bool isCube = true;
+  if (isCube) {
+    vertices = pyramidVertices;
+    numVertices = numPyramidVertices;
+    edges = pyramidEdges;
+    numEdges = numPyramidEdges;
+  } else {
+    vertices = cubeVertices;
+    numVertices = numCubeVertices;
+    edges = cubeEdges;
+    numEdges = numCubeEdges;
+  }
+  isCube = !isCube;
 }

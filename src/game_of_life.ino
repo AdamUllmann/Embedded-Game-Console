@@ -38,3 +38,9 @@ void updateGrid() {
   }
   memcpy(gameGrid, nextGrid, sizeof(gameGrid));
 }
+
+void runGameOfLife() {
+  updateGrid();
+  updateLCD();
+  delay(30);
+}

@@ -20,6 +20,7 @@ void setup() {
   initializeGrid();
   updateDisplay();
   initializeRain();
+  initializeWireframe();
   highScoreFlappyBird = EEPROM.read(highScoreAddressFlappyBird);
   highScoreRain = EEPROM.read(highScoreAddressRain);
   initializeToneGen();
@@ -34,110 +35,8 @@ void loop() {
     updateDisplay();
   }
   lastModeButtonState = modeButtonState;
- 
-  if (displayMode == GAME_OF_LIFE) {
-      updateGrid();
-      updateLCD();
-      delay(30);
-    }
-    else if (displayMode == FLAPPY_BIRD) {
-      if (gameOver == 0) {
-        updateFlappyBird();
-        delay(100);
-        updateLCD();
-        lcd.setCursor(11, 0);
-        lcd.print("Score");
-        lcd.setCursor(11, 1);
-        lcd.print(score);
-        if (cleared != 0) {
-          cleared = 0;
-        }
-      }
-      else {
-        if (cleared != 1) {
-          lcd.clear();
-          cleared = 1;
-        }
-        lcd.setCursor(0, 0);
-        lcd.print("Game Over");
-        lcd.setCursor(0, 1);
-        lcd.print("Score:");
-        lcd.print(score);
- 
-        if (score > highScoreFlappyBird) {
-          highScoreFlappyBird = score;
-          EEPROM.update(highScoreAddressFlappyBird, highScoreFlappyBird);
-        }
-     
-        lcd.setCursor(8, 1);
-        lcd.print("High:");
-        lcd.print(highScoreFlappyBird);
-        if (!analogRead(joystickSWPin) > 0) {
-          gameOver = 0;
-          lcd.clear();
-          cleared = 1;
-          updateDisplay();
-          score = 0;
-        }
-        delay(50);
-      }
-    }
-    else if (displayMode == WOLFENSTEIN) {
-        renderWolfenstein();
-        delay(20);
-    }
-    else if (displayMode == RAIN) {
-      if (gameOver == 0) {
-        updateRain();
-        updateLCD();
-        delay(20);
-        lcd.setCursor(9, 0);
-        lcd.print("Hi:");
-        lcd.print(highScoreRain);
-        lcd.setCursor(6, 1);
-        lcd.print("Score:");
-        lcd.print(score);
-        if (cleared != 0) {
-          cleared = 0;
-        }
-      }
-      else {
-        if (cleared != 1) {
-          lcd.clear();
-          cleared = 1;
-        }
-        lcd.setCursor(0, 0);
-        lcd.print("Game Over");
-        lcd.setCursor(0, 1);
-        lcd.print("Score");
-        lcd.print(score);
- 
-        if (score > highScoreRain) {
-          highScoreRain = score;
-          EEPROM.update(highScoreAddressRain, highScoreRain);
-        }
-     
-        lcd.setCursor(9, 1);
-        lcd.print("Hi");
-        lcd.print(highScoreRain);
-        if (!analogRead(joystickSWPin) > 0) {
-          gameOver = 0;
-          lcd.clear();
-          cleared = 1;
-          updateDisplay();
-          score = 0;
-        }
-        delay(50);
-      }
-    }
-    else if (displayMode == POWDER) {
-        updatePowder();
-        updateLCD();
-    }
-    else {
-      rotateCube();
-      renderCube();
-      delay(16); // for 60 fps
-    }
+
+  runGame(displayMode);
+
   updateToneGen();
 }
